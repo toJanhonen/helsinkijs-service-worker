@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>helsinki.js</title>
+
+    <meta name="description" content="made with love">
+    <meta name="author" content="Thomas Janhonen">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="reveal/css/reveal.css">
+    <link rel="stylesheet" href="reveal/css/theme/frantic.css" id="theme">
+
+    <link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+    <script>
+    window.twttr = !function(document, script, id) {
+      var js, fjs = document.getElementsByTagName(script)[0],
+
+      t = window.twttr || {};
+      if (document.getElementById(id)) return t;
+
+      js = document.createElement(script);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs");
+    </script>
+
+    <!-- Print and PDF export -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-background="reveal/image/atom.png" data-background-position="bottom">
+          <script type="text/template">
+            #beyond the browser
+            ###service worker and the application manifest
+          </script>
+        </section>
+
+        <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+          <script type="text/template">
+            <!-- .element: class="person-container" -->
+            ![thomas janhonen][tj]<!-- .element: class="person" -->
+
+            ```TypeScript
+            let name = 'Thomas Janhonen';
+            let information:Object = {
+              position: 'developer',
+              hasAbilities: [
+                'JavaScript', 'Ruby', 'HTML', 'Linux (ಠ_ಠ)', 'Jekyll'
+              ],
+
+              twitter: '@thomas_janhonen'
+            }
+            ```
+
+            [tj]: reveal/image/me.png "thomas janhonen"
+
+            Note:
+            mention some stuff
+          </script>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ###state of the internet
+
+              Note:
+              mention some stuff
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ###to native or not to native
+
+              <div class="layout-container">
+                <div class="layout">
+                  <object type="image/svg+xml" data="reveal/image/mac.svg" class="layout__item"></object>
+
+                  <div class="layout__item-secondary">
+                    <h5>reliable network connection</h5>
+                  </div>
+                </div>
+
+                <div class="layout">
+                  <object type="image/svg+xml" data="reveal/image/android.svg" class="layout__item"></object>
+
+                  <div class="layout__item-secondary">
+                    <h5>offline</h5>
+                    <h5>'moments' interaction</h5>
+                    <h5>absent mindset</h5>
+                  </div>
+                </div>
+              </div>
+
+              Note:
+              3 out of 5 amazon.com devices are chromebook
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ###service worker
+
+              Note:
+              service worker provides low-level api for fetch, push and sync.
+
+              allow us to take control of network request
+
+              ready today
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #network access
+            </script>
+          </section>
+
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![network][network]<!-- .element: class="android" -->
+
+              [network]: reveal/image/device/network.png "network"
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #no network access
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![offline][offline]<!-- .element: class="android" -->
+
+              [offline]: reveal/image/device/offline.png "offline"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              main.js<!-- .element: class="file" -->
+              ```TypeScript
+              if(navigator.serviceWorker) {
+                navigator.serviceWorker.register('/service-worker.js');
+              }
+              ```
+
+              service-worker.js<!-- .element: class="file" -->
+              ```TypeScript
+              console.log('\,,/(^_^)\,,/');
+              ```
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![offline][offline]<!-- .element: class="android" -->
+
+              [offline]: reveal/image/device/offline.png "offline"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              service-worker.js<!-- .element: class="file" -->
+              ```TypeScript
+              let fileList = [
+                '/', '/format/format.css', '/script/common.bundle.js'
+              ];
+
+              slef.addEventListener('install', (event) => {
+                event.waitUntil(
+                  caches.open('version1.0.0').then((item) => {
+                    return item.addAll(fileList);
+                  }).catch((error) => {
+                    console.log('(ಠ_ಠ)');
+                  })
+                )
+              });
+              ```
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![offline][offline]<!-- .element: class="android" -->
+
+              [offline]: reveal/image/device/offline.png "offline"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              service-worker.js<!-- .element: class="file" -->
+              ```TypeScript
+              self.addEventListener('fetch', (event) => {
+                event.respondWith(
+                  caches.match(event.request).then((response) => {
+                    return response || fetch(event.request);
+                  }).catch((error) => {
+                    if(event.request.mode === 'navigate') {
+                      return caches.match('/index.html');
+                    }
+                  })
+                )
+              });
+              ```
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![almost][almost]<!-- .element: class="android" -->
+
+              [almost]: reveal/image/device/almost.png "almost"
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![device][device]<!-- .element: class="network fragment" -->
+              ![request][request]<!-- .element: class="network fragment" -->
+              ![network][network]<!-- .element: class="network fragment" -->
+
+              [device]: reveal/image/network/device.png "device"
+              [request]: reveal/image/network/request.png "request"
+              [network]: reveal/image/network/network.png "network"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![device][device]<!-- .element: class="network fragment" -->
+              ![request][request]<!-- .element: class="network fragment" -->
+              ![service-worker][service-worker]<!-- .element: class="network fragment" -->
+              ![local][local]<!-- .element: class="network fragment" -->
+              ![network][network]<!-- .element: class="network fragment" -->
+
+              [device]: reveal/image/network/device.png "device"
+              [request]: reveal/image/network/request.png "request"
+              [service-worker]: reveal/image/network/service-worker.png "service-worker"
+              [local]: reveal/image/network/local.png "local"
+              [network]: reveal/image/network/network.png "network"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #we control network access
+              - modify the request and response
+              - defer task
+              - react on network action
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              ![almost][almost]<!-- .element: class="android" -->
+
+              [almost]: reveal/image/device/almost.png "almost"
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              index.html<!-- .element: class="file" -->
+              ```html
+              <link rel="manifest" href="manifest.json">
+              ```
+
+              manifest.json<!-- .element: class="file" -->
+              ```json
+              {
+                "name": "ANYCAST",
+                "short_name": "ANYCAST",
+
+                "display": "standalone",
+                "theme_color": "#f1c30f",
+                "scope": "/",
+
+                "start_url": "/",
+
+                "background_color": "#efefef",
+
+                "icons": [
+                  {
+                    "src": "image/android.png",
+                    "type": "image/png",
+
+                    "sizes": "192x192 256x256 512x512"
+                  }
+                ]
+              }
+              ```
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #\,,/(^_^)\,,/
+            </script>
+          </section>
+        </section>
+
+        <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+          <script type="text/template">
+            #LIE-FI
+
+            ```TypeScript
+            let fileList = [
+              '/format/format.css', '/offline.html',  '/appshell.html'
+            ];
+
+            self.addEventListener('fetch', (event) => {
+              const url = new URL(event.request.url);
+
+              if(url.pathname === '/') {
+                return event.respondWith(caches.match('/appshell.html'));
+              }
+
+              event.respondWith(
+                caches.match(event.request).then((response) => {
+                  return response || fetch(event.request);
+                }).catch((status) => {
+                  if(event.request.mode === 'navigate') {
+                    return caches.match('/offline.html');
+                  }
+                })
+              )
+            });
+            ```
+            <!-- .element: class="fragment" -->
+
+            Note:
+            treat the network as a progressive enhancement
+          </script>
+        </section>
+
+        <section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #later
+
+              main.js<!-- .element: class="file" -->
+              ```TypeScript
+              //[...]
+                .then(() => navigator.serviceWorker.ready)
+                .then((offline) => offline.sync.register('doIt'))
+                .ctach(() => doIt())
+              //[...]
+              ```
+
+              service-worker.js<!-- .element: class="file" -->
+              ```TypeScript
+              self.addEventListener('sync', (event) => {
+                if(event.tag === 'doIt') {
+                  event.waitUnti(
+                    //[...]
+                  )
+                }
+              });
+              ```
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #push notification
+
+              main.js<!-- .element: class="file" -->
+              ```TypeScript
+              if(navigator.serviceWorker) {
+                navigator.serviceWorker.register('/service-worker.js').then((event) => {
+                  event.pushManager.subscribe({
+                    userVisibleOnly: true
+                  }).then((subscription) => {
+                    //success
+                  })
+                });
+              }
+              ```
+
+              service-worker.js<!-- .element: class="file" -->
+              ```TypeScript
+              self.addEventListener('push', (event) => {
+                let notification = 'notification';
+                event.waitUntil(
+                  self.registration.showNotification(notification, {
+                    body: 'you know nothing, jon snow',
+                    icon: '/notifcation.png',
+
+                    tag: 'service-worker-js'
+                  })
+                )
+              });
+              ```
+
+              Note:
+              GoogleCloudMessaging API gcm
+            </script>
+          </section>
+          <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+            <script type="text/template">
+              #educate
+              ![toast][toast]<!-- .element: class="android" -->
+
+              [toast]: reveal/image/device/toast.png "toast"
+            </script>
+          </section>
+        </section>
+
+        <section class="relax" data-markdown data-background="reveal/image/relax.png" data-background-position="bottom">
+          <script type="text/template">
+            <!-- rip headphone people -->
+            <audio id="forrest" data-autoplay src="reveal/audio/forrest.mp3"></audio>
+            <audio data-autoplay src="reveal/audio/water.mp3"></audio>
+
+            With changes to 3 files - and less than 50 lines of code - we can deploy production ready code to provide an offline user experience.
+            <!-- .element: class="fragment" -->
+
+            Low-Level API access to fetch, push and sync.
+            <!-- .element: class="fragment" -->
+
+            We can be better than native at first interaction, and now also in subsequent load times.
+            <!-- .element: class="fragment" -->
+
+            Note:
+            https is enforced
+          </script>
+        </section>
+
+        <section data-markdown data-background="reveal/image/atom-bare.png" data-background-position="bottom">
+          <script type="text/template">
+            #thank you \o/
+          </script>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal/lib/js/head.min.js"></script>
+    <script src="reveal/js/reveal.js"></script>
+
+    <script>
+    Reveal.initialize({
+      controls: false,
+
+      progress: true,
+      history: true,
+
+      margin: 0.1,
+
+      //width: '1200',
+      //height: '675',
+      minScale: 0.35, maxScale: 1,
+
+      transition: 'slide',
+
+      dependencies: [
+        { src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+        { src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+        { src: 'reveal/plugin/notes/notes.js', async: true }
+      ]
+    });
+    </script>
+  </body>
+</html>

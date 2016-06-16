@@ -1,0 +1,24 @@
+{
+    "name": "frc-material",
+    "version": "0.0.1",
+
+    "author": "frantic",
+
+    "scripts": {
+
+    },
+
+    "dependencies": {
+        "express": "~4.13.4",
+        "basic-auth": "~1.0.3"
+    },
+
+    "devDependencies": {
+
+    },
+    "private": true,
+
+    "engines": {
+        "node": "5.7.0"
+    }
+}
